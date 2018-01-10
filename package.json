@@ -7,7 +7,8 @@
   "author": "Ascetic <398121373@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "es6-promise-polyfill": "^1.2.0",
+    "d3": "^4.12.2",
+    "element-resize-event": "^2.0.9",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
@@ -16,6 +17,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "less": "^2.7.3",
     "parcel-bundler": "^1.4.1"
   },
   "scripts": {

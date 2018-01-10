@@ -1,0 +1,42 @@
+// 告警级别-背景色(蓝色肤色)
+@normal_blue: #5be570;
+@recovery_blue: #52edcb;
+@information_blue: #8a9cb5;
+@warning_blue: #fadc23;
+@error_blue: #ffae2f;
+@critical_blue: #ff522a;
+
+// 告警级别-背景色(白色肤色)
+@normal_white: #56df6b;
+@recovery_white: #3ff6ce;
+@information_white: #b4bdcb;
+@warning_white: #ffdc1d;
+@error_white: #ff9b2f;
+@critical_white: #ff522a;
+
+body {
+  #app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    .drag-board {
+      .drag-board-card {
+        cursor: pointer;
+        rect {
+          &.critical{
+            fill: @critical_blue
+          }
+          &.error{
+            fill: @error_blue
+          }
+          &.warning{
+            fill: @warning_blue
+          }
+          &.recovery{
+            fill: @recovery_blue
+          }
+        }
+      }
+    }
+  }
+}
