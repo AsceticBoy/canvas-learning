@@ -28,5 +28,17 @@ export default [
     name: '磁铁资源监控',
     severity: '3',
     count: 87
+  },
+  {
+    id: 'UUID006',
+    name: '设备资源监控',
+    severity: '3',
+    count: 66
+  },
+  {
+    id: 'UUID007',
+    name: '派出所资源监控',
+    severity: '1',
+    count: 47
   }
 ]

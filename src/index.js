@@ -124,7 +124,22 @@ class DragBoard extends Component {
     }
   }
 
+  renderRect(node, d, h, w, x = 0, y = 0) {
+    return D3.select(node).append('rect')
+      .attr('stroke-width', STROKE_WIDTH)
+      .attr('stroke', '#ccc')
+      .attr('filter', 'url(#offset)')
+      .attr('x', x)
+      .attr('y', y)
+      .attr('rx', 10)
+      .attr('ry', 10)
+      .attr('class', severityToColor[d.severity])
+      .attr('height', h)
+      .attr('width', w)
+  }
+
   renderCard() {
+    const self = this
     const boardHeight = this.props.height || BOARD_HEIGHT
     const boardWidth = this.props.width || BOARD_WIDTH
     const dataSource = this.state.dataSource || []
@@ -146,16 +161,10 @@ class DragBoard extends Component {
     cards.enter()
       .append('g:g')
       .attr('class', 'drag-board-card')
-      .append('rect')
-      .attr('stroke-width', STROKE_WIDTH)
-      .attr('stroke', '#ccc')
-      .attr('filter', 'url(#offset)')
-      .attr('rx', 10)
-      .attr('ry', 10)
-      .attr('class', d => severityToColor[d.severity])
-      .attr('height', rect.height)
-      .attr('width', rect.width)
-      .style('opacity', '1')
+      .attr('id', d => d.id)
+      .each(function (d) {
+        self.renderRect(this, d, rect.height, rect.width)
+      })
     // 移除空白的
     cards.exit().remove()
 
@@ -172,8 +181,8 @@ class DragBoard extends Component {
       .call(this.dragCard())
   }
 
-  // 元素碰撞，如果是相撞了返回x,y 否则返回false
-  impact(node, offsetX, offsetY) {
+   // 元素碰撞，如果是相撞了返回x,y 否则返回false
+   impact(node, offsetX, offsetY) {
     // 方块A原始位置 + 鼠标偏移量
     const nodeAWidth = active.width
     const nodeAHeight = active.height
@@ -231,7 +240,7 @@ class DragBoard extends Component {
   }
 
   dragCard() {
-    let _this = this
+    let self = this
     return D3.behavior.drag()
       .on('dragstart', function (d) {
         const rectSelection = D3.select(this).select('rect')
@@ -245,6 +254,7 @@ class DragBoard extends Component {
         active.x = translate[0]
         active.y = translate[1]
         active.nodeData = d
+        self.board.append('use:use').attr('xlink:href', '#' + d.id)
       })
       .on('drag', function () {
         // 1.利用transform实现拖动
@@ -257,12 +267,13 @@ class DragBoard extends Component {
         D3.select(this)
           .attr("transform", "translate(" + translateX + ", " + translateY + ")")
           .call(function () {
-            _this.detect(translateX, translateY)
+            self.detect(translateX, translateY)
           })
       })
       .on('dragend', function (d) {
         // 1.
         currentEvent.sourceEvent.stopPropagation()
+        self.board.selectAll('use').remove()
       })
   }
 
